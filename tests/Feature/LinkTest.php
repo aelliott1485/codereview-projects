@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Link;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,7 +11,7 @@ class LinkTest extends TestCase
     use RefreshDatabase;
     protected bool $seed = true;
     /**
-     * A basic test example.
+     * test fetching a list of links
      *
      * @return void
      */
@@ -18,6 +19,19 @@ class LinkTest extends TestCase
     {
         $response = $this->get('/api/links');
 
-        $response->assertStatus(200);//->dump();
+        $response->assertStatus(200);
     }
+
+    /**
+     * test loading a single link
+     * @return void
+     */
+    public function test_a_link_can_be_shown()
+    {
+        $firstLink = Link::first();
+
+        $response = $this->get("/api/links/{$firstLink->code}");
+        $response->assertStatus(200);
+    }
+
 }
