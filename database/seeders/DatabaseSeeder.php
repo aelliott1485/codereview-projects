@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Link;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -29,11 +30,11 @@ class DatabaseSeeder extends Seeder
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
         ]);
-
+        $users = User::all();
         foreach(range(1, 2) as $index) {
             DB::table('links')->insert([
                 'code' => Str::random(10),
-                'user_id' => 1//$userRecords[0]['id']
+                'user_id' => $users->get($index - 1)->id
             ]);
         }
 

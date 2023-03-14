@@ -25,8 +25,7 @@ class LinkTest extends TestCase
     public function test_a_list_of_links_can_be_shown()
     {
         $response = $this->get('/api/links');
-
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     /**
