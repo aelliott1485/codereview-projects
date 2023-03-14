@@ -24,6 +24,11 @@ class DatabaseSeeder extends Seeder
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
         ]);
+        DB::table('users')->insert([
+            'name' => Str::random(10),
+            'email' => Str::random(10).'@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
 
         foreach(range(1, 2) as $index) {
             DB::table('links')->insert([
@@ -41,7 +46,7 @@ class DatabaseSeeder extends Seeder
         $links = Link::all();
         $products = Product::all();
         foreach ($products as $index => $product) {
-            DB::table('link_products')->insert([
+            DB::table('link_product')->insert([
                 'link_id' => $links->get($index > 1 ? 1 : 0)->id,
                 'product_id' => $product->id
             ]);
