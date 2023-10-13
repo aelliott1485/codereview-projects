@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Org;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,5 +43,29 @@ class OrgController extends Controller
             'MainOrganisations'            => $MainOrganisations,
         ];
         return $data;
+    }
+
+    public function mergerWithRelations()
+    {
+        /*$stuff = Org::select('address')
+            ->distinct()
+            ->with('Companies', 'SubOrganisations')
+            ->whereHas('SubOrganisations', fn ($query) => $query->where('merged', 0), '>', 0)
+            //->withCount('SubOrganisations')
+            //->has('SubOrganisations', '>', 0) // https://stackoverflow.com/a/50081666/1575353
+            ->simplePaginate(10);
+        \Log::info('stuff: '.var_export($stuff, true));*/
+        $mainOrganizations = Address::select('address') //distinct() //Org::select('address')
+            ->distinct()
+            ->whereHas('subOrganisations', fn ($query) => $query->where('merged', 0), '>', 0)
+            //->withCount('SubOrganisations')
+            ->withCount('companies')
+            //->has('SubOrganisations', '>', 0) // https://stackoverflow.com/a/50081666/1575353
+            ->simplePaginate(10);
+        $mainOrganizations->load('companies', 'subOrganisations');
+        //dd($mainOrganizations);
+        return [
+            'MainOrganisations' => $mainOrganizations,
+        ];
     }
 }

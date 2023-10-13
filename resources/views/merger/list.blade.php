@@ -3,17 +3,17 @@
         <thead>
         <th>{{ $Main->address }}  </th>
         <th>
-            @foreach($Main->Companies as $Companies)
-                {{$Companies->name}} (Code: {{ $Companies->code }}) <br />
+            @foreach($Main->companies as $company)
+                {{$company->name}} (Code: {{ $company->code }}) <br />
             @endforeach
         </th>
 
         </thead>
         <tbody>
-        @foreach($Main->SubOrganisations as $Sub)
+        @foreach($Main->subOrganisations as $sub)
             <tr>
-                <td>{{ $Sub->name }}</td>
-                <td>{{ $Sub->code }}</td>
+                <td>{{ $sub->name }}</td>
+                <td>{{ $sub->code }}</td>
             </tr>
 
         @endforeach
