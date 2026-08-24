@@ -4,19 +4,7 @@
 // Retrieved 2026-08-23, License - CC BY-SA 4.0
 function pushToTopOfArray($array, $value): array
 {
-    switch ($value) {
-        case '1':
-            $array = [1, 2, 3];
-            break;
-
-        case '2':
-            $array = [2, 1, 3];
-            break;
-
-        case '3':
-            $array = [3, 1, 2];
-            break;
-    }
+    array_unshift($array, array_splice($array, $value - 1, 1)[0]);
     return $array;
 }
 
