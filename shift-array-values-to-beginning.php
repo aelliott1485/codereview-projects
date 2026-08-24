@@ -4,8 +4,7 @@
 // Retrieved 2026-08-23, License - CC BY-SA 4.0
 function pushToTopOfArray($array, $value): array
 {
-    array_unshift($array, array_splice($array, $value - 1, 1)[0]);
-    return $array;
+    return array_merge(array_splice($array, $value - 1, 1), $array);
 }
 
 foreach (range(1, 3) as $i) {
