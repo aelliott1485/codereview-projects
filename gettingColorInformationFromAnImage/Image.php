@@ -10,7 +10,7 @@ class Image
     private $_hex = [];
     private $_size = [];
     private $_topThree = [];
-    private $_im, $_mostCommon, $_minDem, $_tempHex, $_uniqueHex;
+    private $_im, $_mostCommon, $_tempHex, $_uniqueHex;
 
     public function __construct($image)
     {
@@ -64,19 +64,18 @@ class Image
     #########################
     private function setHex()
     {
-        $x = 0;
-        $y = 0;
-        $this->_minDem = min($this->_size[0], $this->_size[1]);
         // Get RGB pixel by pixel
-        while ($x < $this->_minDem) {
-            $colors = imagecolorat($this->_im, $x++, $y++);
-            $r = ($colors >> 16) & 0xFF;
-            $g = ($colors >> 8) & 0xFF;
-            $b = $colors & 0xFF;
-            // Convert RGB to Hex
-            $hex = sprintf("#%02x%02x%02x", $r, $g, $b);
-            if (!in_array(strtolower($hex), ['#ffffff', '#000000'])) {
-                $this->_hex[] = $hex;
+        for ($x = 0; $x < $this->_size[0]; $x++) {
+            for ($y = 0; $y < $this->_size[1]; $y++) {
+                $colors = imagecolorat($this->_im, $x, $y);
+                $r = ($colors >> 16) & 0xFF;
+                $g = ($colors >> 8) & 0xFF;
+                $b = $colors & 0xFF;
+                // Convert RGB to Hex
+                $hex = sprintf("#%02x%02x%02x", $r, $g, $b);
+                if (!in_array(strtolower($hex), ['#ffffff', '#000000'])) {
+                    $this->_hex[] = $hex;
+                }
             }
         }
         $this->_uniqueHex = array_unique($this->_hex);
