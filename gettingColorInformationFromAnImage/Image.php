@@ -1,23 +1,24 @@
 <?php
 
 // Source - https://codereview.stackexchange.com/q/24363/120114
+// Updated- applied suggestions from Code review https://codereview.stackexchange.com/a/257275/120114
 // Posted by jnthnjns, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-08-24, License - CC BY-SA 4.0
 
 class Image
 {
-    private $_hex = array();
-    private $_size = array();
-    private $_topThree = array();
+    private $_hex = [];
+    private $_size = [];
+    private $_topThree = [];
     private $_im, $_mostCommon, $_minDem, $_tempHex, $_uniqueHex;
 
     public function __construct($image)
     {
-        $parts = explode('.', $image);
-        $ext = end($parts);
-        if ($ext === 'png') {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type A.K.A. mimetype extension
+        $mimeType = finfo_file($finfo, $image);
+        if ($mimeType === 'image/png') {
             $this->_im = imagecreatefrompng($image);
-        } elseif ($ext === 'jpg' || $ext === 'jpeg') {
+        } elseif ($mimeType === 'image/jpg') {
             $this->_im = imagecreatefromjpeg($image);
         } else {
             die('The supplied extension is not supported. Supported formats include: jpg, jpeg, and png.');
@@ -35,7 +36,7 @@ class Image
 
     public function getMostCommon()
     {
-        $this->mostCommon($this->_hex);
+        $this->mostCommon();
         return $this->_mostCommon;
     }
 
@@ -44,13 +45,7 @@ class Image
         $this->_tempHex = $this->_hex;
         $counted = array_count_values($this->_tempHex);
         arsort($counted);
-        $i = 0;
-        foreach ($counted as $k => $v) {
-            if ($i < 3) {
-                $this->_topThree[$i] = $k;
-            }
-            $i++;
-        }
+        $this->_topThree = array_slice(array_keys($counted), 0, 3);
         return $this->_topThree;
     }
 
@@ -74,29 +69,17 @@ class Image
         $this->_minDem = min($this->_size[0], $this->_size[1]);
         // Get RGB pixel by pixel
         while ($x < $this->_minDem) {
-            $colors = imagecolorat($this->_im, $x, $y);
+            $colors = imagecolorat($this->_im, $x++, $y++);
             $r = ($colors >> 16) & 0xFF;
             $g = ($colors >> 8) & 0xFF;
             $b = $colors & 0xFF;
             // Convert RGB to Hex
-            $this->_hex[] = $this->toHex($r, $g, $b);
-            $x++;
-            $y++;
-        }
-        $this->removeWhiteBlack($this->_hex);
-        $this->_uniqueHex = array_unique($this->_hex);
-    }
-
-    private function removeWhiteBlack($array)
-    {
-        $i = 0;
-        foreach ($array as $k) {
-            $k = strtolower($k);
-            if ($k === '#ffffff' || $k === '#000000') {
-                unset($this->_hex[$i]);
+            $hex = sprintf("#%02x%02x%02x", $r, $g, $b);
+            if (!in_array(strtolower($hex), ['#ffffff', '#000000'])) {
+                $this->_hex[] = $hex;
             }
-            $i++;
         }
+        $this->_uniqueHex = array_unique($this->_hex);
     }
 
     private function mostCommon()
@@ -104,20 +87,5 @@ class Image
         $counted = array_count_values($this->_hex);
         arsort($counted);
         $this->_mostCommon = key($counted);
-    }
-
-    private function toHex($r, $g = -1, $b = -1)
-    {
-        (is_array($r) && sizeof($r) == 3) ? list($r, $g, $b) = $r : null;
-        $r = intval($r);
-        $g = intval($g);
-        $b = intval($b);
-        $r = dechex($r < 0 ? 0 : ($r > 255 ? 255 : $r));
-        $g = dechex($g < 0 ? 0 : ($g > 255 ? 255 : $g));
-        $b = dechex($b < 0 ? 0 : ($b > 255 ? 255 : $b));
-        $color = (strlen($r) < 2 ? '0' : '') . $r;
-        $color .= (strlen($g) < 2 ? '0' : '') . $g;
-        $color .= (strlen($b) < 2 ? '0' : '') . $b;
-        return '#' . $color;
     }
 }
