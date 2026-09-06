@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .text-area {
+            margin: 10px;
+        }
+
+        .top-left {
+            position: absolute;
+            background-color: pink;
+            overflow: scroll;
+            top: 0;
+            left: 0;
+            height: 50%;
+            width: 50%;
+        }
+
+        .top-right {
+            position: absolute;
+            background-color: lightgreen;
+            overflow: scroll;
+            top: 0;
+            left: 50%;
+            height: 50%;
+            width: 50%;
+        }
+
+        .bottom-left {
+            position: absolute;
+            background-color: lightblue;
+            overflow: scroll;
+            top: 50%;
+            left: 0;
+            height: 50%;
+            width: 50%;
+        }
+
+        .bottom-right {
+            position: absolute;
+            background-color: lightyellow;
+            overflow: scroll;
+            top: 50%;
+            left: 50%;
+            height: 50%;
+            width: 50%;
+        }
+
+        /*Region Divider*/
+           .divider {
+               position: absolute;
+               background-color: black;
+           }
+
+        .left-right {
+            width: 4px;
+            height: 100%;
+            top: 0;
+            left: calc(50% - 4px / 2);
+        }
+
+        .right-top-bottom {
+            width: 50%;
+            height: 4px;
+            top: calc(50% - 4px / 2);
+            left: 50%;
+        }
+
+        .left-top-bottom {
+            width: 50%;
+            height: 4px;
+            top: calc(50% - 4px / 2);
+            left: 0;
+        }
+
+        .left-right:hover {
+            cursor: col-resize;
+        }
+
+        .left-top-bottom:hover,
+        .right-top-bottom:hover {
+            cursor: row-resize;
+        }
+
+        ::-webkit-scrollbar {
+            height: 0;
+            width: 0;
+        }
+    </style>
+</head>
+<body>
+<!--
+Source - https://codereview.stackexchange.com/q/230486/120114
+Posted by Muhammad Azizi Abdul Aziz, modified by community. See post 'Timeline' for change history
+Retrieved 2026-09-05, License - CC BY-SA 4.0
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+<script src="resizableDivs.js"></script>
+<div id="app">
+    <div>
+        <div class="top-left" ref="topLeft">
+            <div class="text-area">
+                <h3>Resize me using the black bars</h3>
+            </div>
+        </div>
+        <div class="top-right" ref="topRight">
+            <div class="text-area">
+                <h3>Resize me using the black bars</h3>
+            </div>
+        </div>
+        <div class="bottom-left" ref="bottomLeft">
+            <div class="text-area">
+                <h3>Resize me using the black bars</h3>
+            </div>
+        </div>
+        <div class="bottom-right" ref="bottomRight">
+            <div class="text-area">
+                <h3>Resize me using the black bars</h3>
+            </div>
+        </div>
+
+        <div class="left-right divider" ref="lrDivider" @mousedown="dividerMouseDown('lrDivider')" draggable="true"
+             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
+        <div class="right-top-bottom divider" ref="rtbDivider" @mousedown="dividerMouseDown('rtbDivider')" draggable="true"
+             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
+        <div class="left-top-bottom divider" ref="ltbDivider" @mousedown="dividerMouseDown('ltbDivider')" draggable="true"
+             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
+    </div>
+</div>
+</body>
+</html>
