@@ -101,33 +101,30 @@ Retrieved 2026-09-05, License - CC BY-SA 4.0
 <script src="resizableDivs.js"></script>
 <div id="app">
     <div>
-        <div class="top-left" ref="topLeft">
+        <div class="top-left" :style="topLeftStyle">
             <div class="text-area">
                 <h3>Resize me using the black bars</h3>
             </div>
         </div>
-        <div class="top-right" ref="topRight">
+        <div class="top-right" :style="topRightStyle">
             <div class="text-area">
                 <h3>Resize me using the black bars</h3>
             </div>
         </div>
-        <div class="bottom-left" ref="bottomLeft">
+        <div class="bottom-left" :style="bottomLeftStyle">
             <div class="text-area">
                 <h3>Resize me using the black bars</h3>
             </div>
         </div>
-        <div class="bottom-right" ref="bottomRight">
+        <div class="bottom-right" :style="bottomRightStyle">
             <div class="text-area">
                 <h3>Resize me using the black bars</h3>
             </div>
         </div>
 
-        <div class="left-right divider" ref="lrDivider" @mousedown="dividerMouseDown('lrDivider')" draggable="true"
-             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
-        <div class="right-top-bottom divider" ref="rtbDivider" @mousedown="dividerMouseDown('rtbDivider')" draggable="true"
-             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
-        <div class="left-top-bottom divider" ref="ltbDivider" @mousedown="dividerMouseDown('ltbDivider')" draggable="true"
-             @drag="dividerDrag" @dragend="dividerDragEnd" @dragstart="dividerDragStart"></div>
+        <div class="left-right divider" draggable="true" @dragstart="dividerDragStart" @drag="lrDividerDrag" :style="lrDividerStyles"></div>
+        <div class="right-top-bottom divider" draggable="true" @drag="rtbDividerDrag" @dragstart="dividerDragStart" :style="rtbDividerStyles"></div>
+        <div class="left-top-bottom divider" draggable="true" @drag="ltbDividerDrag" @dragstart="dividerDragStart" :style="ltbDividerStyles"></div>
     </div>
 </div>
 </body>
