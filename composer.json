@@ -1,0 +1,14 @@
+{
+    "name": "andrewelliott/codereview-projects",
+    "description": "Code Review Projects",
+    "type": "project",
+    "require": {
+        "phpunit/phpunit": "^12.5"
+    },
+    "authors": [
+        {
+            "name": "Andrew Elliott",
+            "email": "aelliott1485@users.noreply.github.com"
+        }
+    ]
+}
