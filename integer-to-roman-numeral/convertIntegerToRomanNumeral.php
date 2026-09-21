@@ -35,38 +35,34 @@ define('NUMER_ROMAN_NUMERAL_MAPPING', [
     ],
 ]);
 
-function separateNumberIntoUnits($n)
+function separateNumberIntoUnits(int $n): array
 {
     $separated = str_split($n);
     foreach ($separated as $i => $currentNum) {
-        $length = count($separated) - $i;
-        $separated[$i] = str_pad($currentNum, $length, '0');
+        $separated[$i] = str_pad($currentNum, count($separated) - $i, '0');
     }
     return $separated;
 }
 
-function getClosestNum($numToFind): ?array
+function getClosestNum(int $numToFind): ?array
 {
+    if ($numToFind === 0) {
+        return null;
+    }
     $closestNum = null;
     $foundKey = null;
     $closestMag = null;
     $differenceArray = array_column(NUMER_ROMAN_NUMERAL_MAPPING, 'NearestNum');
-    if ($numToFind == 0) {
-        return null;
-    }
     foreach (NUMER_ROMAN_NUMERAL_MAPPING as $num => $data) {
         $currentIndex = array_search($num, array_keys(NUMER_ROMAN_NUMERAL_MAPPING));
-        $romanNumeral = $data["RomanNumeral"];
-        $differenceToSum = $data["NearestNum"];
+        $romanNumeral = $data['RomanNumeral'];
+        $differenceToSum = $data['NearestNum'];
         $previousDifferenceToSum = null;
 
         if ($num != 1) {
             $previousDifferenceToSum = $differenceArray[$currentIndex - 1];
         }
-        $mag = $num - $numToFind;
-        if ($mag < 0) {
-            $mag *= -1;
-        }
+        $mag = abs($num - $numToFind);
         if ($numToFind == $num) {
             $closestNum = $num;
             $foundKey = $romanNumeral;
