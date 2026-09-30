@@ -23,7 +23,7 @@ class Test{
     //Get User
     public function get_users($userObjects = []){
         $get_user = new GetUser();
-        return $get_user->main($userObject = []);
+        return $get_user->main($userObjects);
     }
 
     //Update User
