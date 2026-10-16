@@ -11,11 +11,11 @@ require_once(serverPath('/core/GlobalHelpers.php'));
 header('X-Content-Type-Options: nosniff');
 header('X-XSS-Protection: 1');
 header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
-session_set_cookie_params(0, '/', getDomain(host(), ($https = isHttps()) ), $https, true);
-if(session_id() == ""){
+session_set_cookie_params(0, '/', getDomain(host(), ($https = isHttps())), $https, true);
+if (session_id() == "") {
     session_start();
 }
-## filepath ../public_html
+
 class Index
 {
     protected $core;
@@ -29,15 +29,16 @@ class Index
      * for a list of valid timezones, see:
      * http://php.net/manual/en/timezones.php
      *
-     * @param   na
+     * @param na
+     * @return
+     * @version 0.0.2
      * @author  sbebbington
      * @date    24 Jan 2017 - 09:49:15
-     * @version 0.0.2
-     * @return
      * @todo
      */
-    public function __construct(){
-        $this->core = new \Application\Core\Framework\Core();
+    public function __construct()
+    {
+        $this->core = new Core();
         setTimeZone($this->timeZone);
         $this->core->loadPage();
     }
@@ -47,14 +48,15 @@ class Index
  * This will correctly route to the application
  * directory on your server
  *
- * @param   string
+ * @param string
+ * @return  string
+ * @version 0.0.2
  * @author  Shaun
  * @date    2 Feb 2017 - 13:01:13
- * @version 0.0.2
- * @return  string
  * @todo
  */
-function serverPath(string $routeTo = ''){
+function serverPath(string $routeTo = '')
+{
     $_x = str_replace("\\", "/", dirname(__FILE__)) . '/application';
     $_x = str_replace("public_html/", "", $_x);
     $_x .= $routeTo;
