@@ -1,12 +1,14 @@
 function twoSum(nums: number[], target: number): number[] {
-    const subtractions = [];
+    const subtractionsMap = new Map<number, number>();
     for (let i = nums.length; i--; ) {
-        subtractions[i] = target - nums[i];
+        subtractionsMap.set(target - nums[i], i);
     }
     for (let i = nums.length; i--; ) {
-        const indexOfOtherNum = subtractions.indexOf(nums[i]);
-        if (indexOfOtherNum > -1 && indexOfOtherNum !== i) {
-            return [indexOfOtherNum, i];
+        if (subtractionsMap.has(nums[i])) {
+            const otherIndex = subtractionsMap.get(nums[i]);
+            if (otherIndex !== i) {
+                return [otherIndex, i];
+            }
         }
     }
 }
