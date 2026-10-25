@@ -3,19 +3,22 @@ function lengthOfLongestSubstring(s: string): number {
         return s.length;
     }
     let longestLength = 1;
-    const currentSet = new Set<string>();
+    let subString = '';
     for (let i = s.length; i-- > 1;) {
-        currentSet.add(s[i]);
+        subString = `${s[i]}`;
         for (let j = i; j--;) {
-            if (currentSet.has(s[j])) {
-                if (longestLength < currentSet.size) {
-                   longestLength = currentSet.size;
+            if (subString.indexOf(s[j]) !== -1) {
+                if (longestLength < subString.length) {
+                   longestLength = subString.length;
                 }
-                currentSet.clear();
+                subString = '';
                 break;
-            }
-            currentSet.add(s[j]);
+            }        
+            subString = `${s[j]}${subString}`;
+        }
+        if (longestLength < subString.length) {
+            longestLength = subString.length;
         }
     }
-    return Math.max(longestLength, currentSet.size);
+    return Math.max(longestLength, subString.length);
 };
