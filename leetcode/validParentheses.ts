@@ -18,3 +18,15 @@ function isValid(s: string): boolean {
     }
     return queue.length === 0;
 };
+const CASES = [
+	['()', true],
+	['()[]{}', true],
+	['(]', false],
+	['(][)', false],
+	['([])', true],
+	['([{}])', true],
+	['([{]})', false],
+];
+CASES.forEach(([input, output]) => {
+    console.log(`isValid(${input}) === ${output}: `, isValid(input) === output);
+});
