@@ -1,5 +1,8 @@
 # @param {String[]} strs
 # @return {String}
+#
+# Leetcode Runtime: 6ms - beats 39.85%
+# Leetcode Memory: 13.34 MB beats 100%
 def longest_common_prefix(strs)
     prefix = ""
 	first_str = strs.shift
