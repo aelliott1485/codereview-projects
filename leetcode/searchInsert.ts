@@ -1,20 +1,19 @@
 /*
-* Runtime 1ms Beats16.72%
-* Memory 60.12MB Beats 5.55%
+* Runtime 0ms Beats 100.00%
+* Memory 56.48MB Beats 10.75%
 */
 function searchInsert(nums: number[], target: number): number {
-    const numsLength = nums.length;
-    for (let i = numsLength; i--;) {
-        if (nums[i] > target) {
-            if (i && nums[i -1] < target) {
-                return i;
-            }
-        } else if (nums[i] < target) {
-            return i + 1;
-        }
-        if (nums[i] === target) {
-            return i;
+    let leftPointer = 0;
+    let rightPointer = nums.length - 1;
+    while (leftPointer <= rightPointer) {
+        let midPoint = Math.floor((rightPointer + leftPointer) / 2);
+        if (nums[midPoint] < target) {
+            leftPointer = midPoint + 1;
+        } else if (nums[midPoint] > target) {
+            rightPointer = midPoint - 1;
+        } else {
+            return midPoint;
         }
     }
-    return 0;
+    return leftPointer;
 };
